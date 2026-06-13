@@ -5,3 +5,11 @@ __pycache__/
 *.db
 .vscode/
 .idea/
+
+*.json
+*.csv
+*.log
+*.txt
+*.db
+*.sqlite
+*.env*
