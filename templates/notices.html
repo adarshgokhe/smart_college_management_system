@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% set title='Notice Board' %}
+{% block content %}
+{% if session.role=='admin' %}
+<div class="card">
+  <h3>Publish Notice</h3>
+  <form method="post" class="grid">
+    <input name="title" placeholder="Title" required>
+    <select name="audience"><option>All</option><option>Students</option><option>Teachers</option></select>
+    <textarea name="message" placeholder="Notice Message" required></textarea>
+    <button class="btn">Publish</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>All Notices</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Title</th><th>Message</th><th>Audience</th><th>Date</th></tr>
+      {% for n in notices %}
+      <tr><td>{{n.title}}</td><td>{{n.message}}</td><td>{{n.audience}}</td><td>{{n.created_at}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

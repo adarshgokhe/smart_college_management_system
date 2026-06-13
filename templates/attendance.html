@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% set title='Attendance Management' %}
+{% block content %}
+{% if session.role in ['admin','teacher'] %}
+<div class="card">
+  <h3>Mark Attendance</h3>
+  <form method="post" class="grid">
+    <select name="student_id" required>
+      {% for s in students %}<option value="{{s.id}}">{{s.name}} ({{s.enrollment_no}})</option>{% endfor %}
+    </select>
+    <select name="subject_id" required>
+      {% for sub in subjects %}<option value="{{sub.id}}">{{sub.name}}</option>{% endfor %}
+    </select>
+    <input type="date" name="attendance_date" required>
+    <select name="status"><option>Present</option><option>Absent</option></select>
+    <button class="btn">Save Attendance</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>Attendance Records</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Date</th><th>Enrollment No.</th><th>Student</th><th>Subject</th><th>Status</th></tr>
+      {% for a in attendance %}
+      <tr><td>{{a.attendance_date}}</td><td>{{a.enrollment_no}}</td><td>{{a.student_name}}</td><td>{{a.subject_name}}</td><td><span class="badge">{{a.status}}</span></td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

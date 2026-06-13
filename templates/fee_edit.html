@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% set title='Edit Fee' %}
+{% block content %}
+<div class="card">
+  <h3>Edit Fee Details</h3>
+  <form method="post" class="grid">
+    <select name="student_id" required>{% for s in students %}<option value="{{s.id}}" {% if s.id==fee.student_id %}selected{% endif %}>{{s.name}} ({{s.enrollment_no}})</option>{% endfor %}</select>
+    <select name="fee_type">{% for t in ['College Fee','Exam Fee','Library Fine','Admission Fee'] %}<option {% if t==fee.fee_type %}selected{% endif %}>{{t}}</option>{% endfor %}</select>
+    <input name="amount" type="number" min="0" step="100" value="{{fee.amount}}" required>
+    <select name="status">{% for s in ['Unpaid','Paid'] %}<option {% if s==fee.status %}selected{% endif %}>{{s}}</option>{% endfor %}</select>
+    <input type="date" name="due_date" value="{{fee.due_date}}" required>
+    <input type="date" name="paid_date" value="{{fee.paid_date}}">
+    <input name="payment_method" value="{{fee.payment_method}}" placeholder="Payment Method">
+    <input name="receipt_no" value="{{fee.receipt_no}}" placeholder="Receipt No.">
+    <input name="remarks" value="{{fee.remarks}}" placeholder="Remarks">
+    <button class="btn success">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

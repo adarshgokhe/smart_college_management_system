@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% set title='Edit Teacher' %}
+{% block content %}
+<div class="card">
+  <h3>Edit Teacher Details</h3>
+  <form method="post" class="grid">
+    <input name="employee_id" value="{{teacher.employee_id}}" placeholder="Employee ID" required>
+    <input name="name" value="{{teacher.name}}" placeholder="Teacher Name" required>
+    <input name="email" type="email" value="{{teacher.email}}" placeholder="Email" required>
+    <input name="department" value="{{teacher.department}}" placeholder="Department">
+    <input name="designation" value="{{teacher.designation}}" placeholder="Designation">
+    <input name="qualification" value="{{teacher.qualification}}" placeholder="Qualification">
+    <input name="phone" value="{{teacher.phone}}" placeholder="Phone">
+    <input name="joining_date" type="date" value="{{teacher.joining_date}}">
+    <button class="btn success">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

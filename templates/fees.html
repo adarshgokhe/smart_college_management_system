@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% set title='Fees Management' %}
+{% block content %}
+{% if session.role=='admin' %}
+<div class="card">
+  <h3>Add Fee Record</h3>
+  <form method="post" class="grid">
+    <select name="student_id" required>
+      <option value="">Select Student</option>
+      {% for s in students %}<option value="{{s.id}}">{{s.name}} ({{s.enrollment_no}})</option>{% endfor %}
+    </select>
+    <select name="fee_type"><option>College Fee</option><option>Exam Fee</option><option>Library Fine</option><option>Admission Fee</option></select>
+    <input name="amount" type="number" min="0" step="100" placeholder="Amount" required>
+    <select name="status"><option>Unpaid</option><option>Paid</option></select>
+    <input type="date" name="due_date" required>
+    <input type="date" name="paid_date">
+    <input name="payment_method" placeholder="Payment Method">
+    <input name="receipt_no" placeholder="Receipt No.">
+    <input name="remarks" placeholder="Remarks">
+    <button class="btn">Save Fee</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>{% if session.role=='student' %}My Fees{% else %}Student Fee Records{% endif %}</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Enrollment No.</th><th>Student</th><th>Course</th><th>Fee Type</th><th>Amount</th><th>Status</th><th>Due Date</th><th>Paid Date</th><th>Method</th><th>Receipt</th>{% if session.role in ['student','admin'] %}<th>Action</th>{% endif %}</tr>
+      {% for f in fees %}
+      <tr>
+        <td>{{f.enrollment_no}}</td><td>{{f.student_name}}</td><td>{{f.course_name or '-'}}</td><td>{{f.fee_type}}</td>
+        <td>Rs. {{'%.0f'|format(f.amount or 0)}}</td><td><span class="badge {{f.status|lower}}">{{f.status}}</span></td>
+        <td>{{f.due_date}}</td><td>{{f.paid_date or '-'}}</td><td>{{f.payment_method or '-'}}</td><td>{{f.receipt_no or '-'}}</td>
+        {% if session.role=='student' %}
+        <td>{% if f.status == 'Unpaid' %}<a class="btn success" href="{{ url_for('pay_fee', fee_id=f.id) }}">Pay Now</a>{% else %}-{% endif %}</td>
+        {% elif session.role=='admin' %}
+        <td><a class="btn secondary" href="{{ url_for('edit_fee', fee_id=f.id) }}">Edit</a></td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

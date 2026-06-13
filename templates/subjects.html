@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% set title='My Course Subjects' if session.role=='student' else 'Subject Management' %}
+{% block content %}
+{% if session.role in ['admin','teacher'] %}
+<div class="card">
+  <h3>Add Subject</h3>
+  <form method="post" class="grid">
+    <input name="name" placeholder="Subject Name" required>
+    <select name="course_id" required>
+      <option value="">Select Course</option>
+      {% for c in courses %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}
+    </select>
+    <select name="teacher_id" required>
+      <option value="">Select Teacher</option>
+      {% for t in teachers %}<option value="{{t.id}}">{{t.name}} ({{t.employee_id}})</option>{% endfor %}
+    </select>
+    <input name="semester" placeholder="Semester">
+    <button class="btn">Add Subject</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>{% if session.role=='student' %}My 5 Course Subjects{% else %}5 Subjects Per Course{% endif %}</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Subject</th><th>Course</th><th>Semester</th><th>Teacher</th></tr>
+      {% for s in subjects %}
+      <tr><td>{{s.name}}</td><td>{{s.course_name}}</td><td>{{s.semester}}</td><td>{{s.teacher_name or '-'}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

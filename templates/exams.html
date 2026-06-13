@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% set title='Exam Details' %}
+{% block content %}
+{% if session.role in ['admin','teacher'] %}
+<div class="card">
+  <h3>Add Exam</h3>
+  <form method="post" class="grid">
+    <input name="exam_name" placeholder="Exam Name" required>
+    <select name="course_id" required>
+      <option value="">Select Course</option>
+      {% for c in courses %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}
+    </select>
+    <select name="subject_id" required>
+      <option value="">Select Subject</option>
+      {% for s in subjects %}<option value="{{s.id}}">{{s.name}}</option>{% endfor %}
+    </select>
+    <input name="exam_date" type="date" required>
+    <input name="max_marks" type="number" value="100" placeholder="Max Marks">
+    <input name="exam_fee" type="number" min="0" step="100" placeholder="Exam Fee">
+    <input name="due_date" type="date" required>
+    <select name="status"><option>Scheduled</option><option>Completed</option><option>Cancelled</option></select>
+    <button class="btn">Save Exam</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>Exam Schedule and Fees</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Exam</th><th>Course</th><th>Subject</th><th>Exam Date</th><th>Max Marks</th><th>Exam Fee</th><th>Due Date</th><th>Status</th></tr>
+      {% for e in exams %}
+      <tr><td>{{e.exam_name}}</td><td>{{e.course_name}}</td><td>{{e.subject_name}}</td><td>{{e.exam_date}}</td><td>{{e.max_marks}}</td><td>Rs. {{'%.0f'|format(e.exam_fee or 0)}}</td><td>{{e.due_date}}</td><td>{{e.status}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

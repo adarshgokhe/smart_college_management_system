@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% set title='Dashboard' %}
+{% block content %}
+<div class="cards">
+  <div class="card stat"><h2>{{counts.students}}</h2><p>Total Students</p></div>
+  <div class="card stat"><h2>{{counts.teachers}}</h2><p>Total Teachers</p></div>
+  <div class="card stat"><h2>{{counts.courses}}</h2><p>Courses</p></div>
+  <div class="card stat"><h2>{{counts.books}}</h2><p>Library Books</p></div>
+  <div class="card stat"><h2>{{counts.paid}}</h2><p>Paid Fees</p></div>
+  <div class="card stat danger-stat"><h2>{{counts.unpaid}}</h2><p>Unpaid Fees</p></div>
+</div>
+
+<div class="card">
+  <h3>Latest Notices</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Title</th><th>Audience</th><th>Date</th></tr>
+      {% for n in notices %}
+      <tr><td>{{n.title}}</td><td>{{n.audience}}</td><td>{{n.created_at}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login | Smart College</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+  <section class="login-shell">
+    <div class="login-hero">
+      <h1>Smart College<br>College management</h1>
+    </div>
+
+    <div class="login-card">
+      {% with messages=get_flashed_messages(with_categories=true) %}
+        {% for cat,msg in messages %}<div class="flash {{cat}}">{{msg}}</div>{% endfor %}
+      {% endwith %}
+
+      {% if mode == 'main' %}
+      <h2>Select Login</h2>
+      <div class="login-actions">
+        <a class="btn" href="{{ url_for('admin_login') }}">Admin Login</a>
+        <a class="btn secondary" href="{{ url_for('teacher_login') }}">Teacher Login</a>
+        <a class="btn success" href="{{ url_for('student_login') }}">Student Login</a>
+      </div>
+      {% else %}
+      <h2>{{ mode|title }} Login</h2>
+      <form method="post">
+        <label>{% if mode == 'student' %}Enrollment No. or Email{% elif mode == 'teacher' %}Employee ID or Email{% else %}Admin Email{% endif %}</label>
+        <input name="login_id" required autofocus>
+        <label>Password</label>
+        <input name="password" type="password" required>
+        <button class="btn full">Login</button>
+      </form>
+      <p class="hint"><a href="{{ url_for('login') }}">Back to login selection</a></p>
+      {% endif %}
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% set title='Student Management' %}
+{% block content %}
+<div class="card">
+  <h3>Add Student Admission</h3>
+  <form method="post" class="grid">
+    <input name="enrollment_no" placeholder="Enrollment No." required>
+    <input name="name" placeholder="Student Name" required>
+    <input name="email" type="email" placeholder="Email" required>
+    <input name="password" placeholder="Login Password" required>
+    <select name="course_id" required>
+      <option value="">Select Course</option>
+      {% for c in courses %}<option value="{{c.id}}">{{c.name}} - Rs. {{'%.0f'|format(c.fee_amount or 0)}}</option>{% endfor %}
+    </select>
+    <input name="semester" placeholder="Semester">
+    <select name="department" required><option>A</option><option>B</option><option>C</option><option>D</option></select>
+    <select name="gender"><option>Male</option><option>Female</option><option>Other</option></select>
+    <input name="dob" type="date" placeholder="DOB">
+    <input name="guardian_name" placeholder="Guardian Name">
+    <input name="phone" placeholder="Phone">
+    <input name="address" placeholder="Address">
+    <input name="previous_qualification" placeholder="Previous Qualification">
+    <input name="admission_date" type="date" value="{{ request.args.get('today','') }}">
+    <select name="admission_status"><option>Approved</option><option>Pending</option><option>Rejected</option></select>
+    <button class="btn">Add Student</button>
+  </form>
+</div>
+
+<div class="card">
+  <h3>All Students</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>User ID</th><th>Enrollment No.</th><th>Name</th><th>Email</th><th>Course</th><th>Semester</th><th>Department</th><th>Gender</th><th>Guardian</th><th>Phone</th><th>Admission</th><th>Fee</th><th>Action</th></tr>
+      {% for s in students %}
+      <tr>
+        <td>{{s.user_id}}</td><td>{{s.enrollment_no}}</td><td>{{s.name}}</td><td>{{s.email}}</td><td>{{s.course_name}}</td>
+        <td>{{s.semester}}</td><td>{{s.department}}</td><td>{{s.gender}}</td><td>{{s.guardian_name}}</td><td>{{s.phone}}</td><td>{{s.admission_status}}</td>
+        <td>Rs. {{'%.0f'|format(s.fee_amount or 0)}}</td><td><a class="btn secondary" href="{{ url_for('edit_student', student_id=s.id) }}">Edit</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

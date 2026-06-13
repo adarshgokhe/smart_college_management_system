@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% set title='Admissions and Degree Applications' %}
+{% block content %}
+{% if session.role == 'student' %}
+<div class="card">
+  <h3>Apply to Degree</h3>
+  <form method="post" class="grid">
+    <input name="degree_name" placeholder="Degree Name" required>
+    <input name="specialization" placeholder="Specialization">
+    <input name="remarks" placeholder="Remarks">
+    <button class="btn success">Apply</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>Admission Details</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Enrollment No.</th><th>Name</th><th>Email</th><th>Course</th><th>Semester</th><th>Guardian</th><th>DOB</th><th>Admission Date</th><th>Status</th><th>Previous Qualification</th></tr>
+      {% for a in admissions %}
+      <tr><td>{{a.enrollment_no}}</td><td>{{a.name}}</td><td>{{a.email}}</td><td>{{a.course_name}}</td><td>{{a.semester}}</td><td>{{a.guardian_name}}</td><td>{{a.dob}}</td><td>{{a.admission_date}}</td><td>{{a.admission_status}}</td><td>{{a.previous_qualification}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Degree Applications</h3>
+  <div class="table-wrap">
+    <table>
+      <tr>{% if session.role != 'student' %}<th>Enrollment No.</th><th>Student</th>{% endif %}<th>Degree</th><th>Specialization</th><th>Status</th><th>Applied Date</th><th>Remarks</th>{% if session.role == 'admin' %}<th>Admin Approval</th>{% endif %}</tr>
+      {% for app in applications %}
+      <tr>
+        {% if session.role != 'student' %}<td>{{app.enrollment_no}}</td><td>{{app.student_name}}</td>{% endif %}
+        <td>{{app.degree_name}}</td><td>{{app.specialization}}</td><td><span class="badge">{{app.status}}</span></td><td>{{app.applied_at}}</td><td>{{app.remarks}}</td>
+        {% if session.role == 'admin' %}
+        <td>
+          <form method="post" action="{{ url_for('update_degree_application', application_id=app.id) }}" class="inline-form">
+            <select name="status"><option>Approved</option><option>Rejected</option><option>Pending</option></select>
+            <input name="remarks" placeholder="Admin remarks">
+            <button class="btn success">Update</button>
+          </form>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

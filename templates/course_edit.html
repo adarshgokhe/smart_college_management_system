@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% set title='Edit Course' %}
+{% block content %}
+<div class="card">
+  <h3>Edit Course Details</h3>
+  <form method="post" class="grid">
+    <input name="name" value="{{course.name}}" placeholder="Course Name" required>
+    <input name="duration" value="{{course.duration}}" placeholder="Duration">
+    <input name="fee_amount" type="number" min="0" step="100" value="{{course.fee_amount}}" placeholder="College Fee">
+    <input name="description" value="{{course.description}}" placeholder="Description">
+    <button class="btn success">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

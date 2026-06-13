@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% set title='All Member Login IDs' %}
+{% block content %}
+<div class="card">
+  <h3>Members, Login IDs and Passwords</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>User ID</th><th>Name</th><th>Role</th><th>Email</th><th>Login ID</th><th>Password</th></tr>
+      {% for m in members %}
+      <tr>
+        <td>{{m.id}}</td><td>{{m.name}}</td><td>{{m.role|title}}</td><td>{{m.email}}</td><td>{{m.login_id or m.email}}</td><td>{{m.password_hint or 'Set manually'}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

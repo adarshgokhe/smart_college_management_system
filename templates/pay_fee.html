@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% set title='Pay Fee' %}
+{% block content %}
+<div class="card payment-card">
+  <h3>Payment Process</h3>
+  <div class="payment-summary">
+    <p><b>Student:</b> {{fee.student_name}} ({{fee.enrollment_no}})</p>
+    <p><b>Course:</b> {{fee.course_name}}</p>
+    <p><b>Fee Type:</b> {{fee.fee_type}}</p>
+    <p><b>Amount:</b> Rs. {{'%.0f'|format(fee.amount or 0)}}</p>
+    <p><b>Due Date:</b> {{fee.due_date}}</p>
+  </div>
+  <form method="post" class="grid">
+    <input name="payer_name" placeholder="Payer Name" required>
+    <select name="payment_method" required>
+      <option value="">Select Payment Method</option>
+      <option>UPI</option>
+      <option>Debit Card</option>
+      <option>Credit Card</option>
+      <option>Net Banking</option>
+      <option>Cash at Counter</option>
+    </select>
+    <input name="transaction_id" placeholder="Transaction / UPI / Receipt ID" required>
+    <button class="btn success">Confirm Payment</button>
+  </form>
+</div>
+{% endblock %}

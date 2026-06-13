@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% set title='Library Management' %}
+{% block content %}
+{% if session.role=='admin' %}
+<div class="card">
+  <h3>Add Book and Purchase Details</h3>
+  <form method="post" class="grid">
+    <input name="title" placeholder="Book Title" required>
+    <input name="author" placeholder="Author">
+    <input name="isbn" placeholder="ISBN">
+    <input name="total_copies" type="number" value="1" min="1">
+    <input name="vendor" placeholder="Vendor">
+    <input name="purchase_date" type="date">
+    <input name="amount" type="number" min="0" step="100" placeholder="Purchase Amount">
+    <input name="invoice_no" placeholder="Invoice No.">
+    <button class="btn">Add Book</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>Books</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Title</th><th>Author</th><th>ISBN</th><th>Total</th><th>Available</th></tr>
+      {% for b in books %}
+      <tr><td>{{b.title}}</td><td>{{b.author}}</td><td>{{b.isbn}}</td><td>{{b.total_copies}}</td><td>{{b.available_copies}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% if session.role=='admin' %}
+<div class="card">
+  <h3>Purchase Details</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Book</th><th>Vendor</th><th>Quantity</th><th>Purchase Date</th><th>Amount</th><th>Invoice</th></tr>
+      {% for p in purchases %}
+      <tr><td>{{p.book_title}}</td><td>{{p.vendor}}</td><td>{{p.quantity}}</td><td>{{p.purchase_date}}</td><td>Rs. {{'%.0f'|format(p.amount or 0)}}</td><td>{{p.invoice_no}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

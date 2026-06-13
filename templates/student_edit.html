@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% set title='Edit Student' %}
+{% block content %}
+<div class="card">
+  <h3>Edit Student Details</h3>
+  <form method="post" class="grid">
+    <input name="enrollment_no" value="{{student.enrollment_no}}" placeholder="Enrollment No." required>
+    <input name="name" value="{{student.name}}" placeholder="Student Name" required>
+    <input name="email" type="email" value="{{student.email}}" placeholder="Email" required>
+    <select name="course_id" required>{% for c in courses %}<option value="{{c.id}}" {% if c.id==student.course_id %}selected{% endif %}>{{c.name}}</option>{% endfor %}</select>
+    <input name="semester" value="{{student.semester}}" placeholder="Semester">
+    <select name="department">{% for d in ['A','B','C','D'] %}<option {% if d==student.department %}selected{% endif %}>{{d}}</option>{% endfor %}</select>
+    <select name="gender">{% for g in ['Male','Female','Other'] %}<option {% if g==student.gender %}selected{% endif %}>{{g}}</option>{% endfor %}</select>
+    <input name="dob" type="date" value="{{student.dob}}">
+    <input name="guardian_name" value="{{student.guardian_name}}" placeholder="Guardian Name">
+    <input name="phone" value="{{student.phone}}" placeholder="Phone">
+    <input name="address" value="{{student.address}}" placeholder="Address">
+    <input name="previous_qualification" value="{{student.previous_qualification}}" placeholder="Previous Qualification">
+    <input name="admission_date" type="date" value="{{student.admission_date}}">
+    <select name="admission_status">{% for s in ['Approved','Pending','Rejected'] %}<option {% if s==student.admission_status %}selected{% endif %}>{{s}}</option>{% endfor %}</select>
+    <button class="btn success">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

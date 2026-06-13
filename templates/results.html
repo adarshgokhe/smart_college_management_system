@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% set title='Result Management' %}
+{% block content %}
+{% if session.role in ['admin','teacher'] %}
+<div class="card">
+  <h3>Add Result</h3>
+  <form method="post" class="grid">
+    <select name="student_id" required>
+      <option value="">Select Student</option>
+      {% for s in students %}<option value="{{s.id}}">{{s.name}} ({{s.enrollment_no}})</option>{% endfor %}
+    </select>
+    <select name="subject_id" required>
+      <option value="">Select Subject</option>
+      {% for sub in subjects %}<option value="{{sub.id}}">{{sub.name}}</option>{% endfor %}
+    </select>
+    <input name="marks" type="number" placeholder="Marks" required>
+    <input name="max_marks" type="number" value="100">
+    <input name="exam_type" placeholder="Exam Type" required>
+    <input name="remarks" placeholder="Remarks">
+    <button class="btn">Save Result</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>{% if session.role=='student' %}My Results{% else %}All Results{% endif %}</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Enrollment No.</th><th>Student</th><th>Subject</th><th>Marks</th><th>Max</th><th>Exam</th><th>Grade</th><th>Remarks</th></tr>
+      {% for r in results %}
+      <tr><td>{{r.enrollment_no}}</td><td>{{r.student_name}}</td><td>{{r.subject_name}}</td><td>{{r.marks}}</td><td>{{r.max_marks}}</td><td>{{r.exam_type}}</td><td><span class="badge">{{r.grade or '-'}}</span></td><td>{{r.remarks or '-'}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}
